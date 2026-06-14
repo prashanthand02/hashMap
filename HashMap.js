@@ -136,14 +136,34 @@ function HashMap() {
         return value;
         
     };
+
+    function length() {
+        return size;
+    };
+
+    function clear() {
+        for (let i = 0; i < buckets.length; i++) {
+            if (!buckets[i]) continue;
+
+            let currNode = buckets[i];
+
+            while (currNode !== null) {
+                size--;
+                currNode = currNode.nextNode;
+            };
+        }
+    }
     
     return {
-        set, get, has, remove
+        set, get, has, remove, length, clear
     }
 };
 
-let a = HashMap();
-a.set(`name`, `prashanth`);
-a.set(`age`, 17);
-a.set(`age`, 20);
-a.set(`name`, `jayanth`);
+// let a = HashMap();
+// a.set(`name`, `prashanth`);
+// a.set(`age`, 17);
+// a.set(`age`, 20);
+// a.set(`name`, `jayanth`);
+// console.log(a.length());
+// a.clear();
+// console.log(a.length());
