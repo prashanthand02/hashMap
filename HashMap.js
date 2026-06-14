@@ -83,8 +83,29 @@ function HashMap() {
         return value;
     };
 
+    function has(key) {
+        if (typeof key !== typeof "String") {
+            throw new TypeError(`Key type can only be of string.`)
+        };
+
+        let value = false;
+        for (let i = 0; i < buckets.length; i++) {
+            let currNode = buckets[i];
+
+            if (!buckets[i]) continue;
+            
+            while (currNode !== null) {
+                if (currNode.key === key) {
+                    value = true;
+                };
+                currNode = currNode.nextNode;
+            };
+        };
+        return value;
+    }
+
     return {
-        set, get
+        set, get, has
     }
 };
 
@@ -93,4 +114,4 @@ function HashMap() {
 // a.set(`age`, 17);
 // a.set(`age`, 20);
 // a.set(`name`, `jayanth`);
-// console.log(a.get(`nam`));
+// console.log(a.has(`prashanth`));
