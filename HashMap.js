@@ -151,11 +151,28 @@ function HashMap() {
                 size--;
                 currNode = currNode.nextNode;
             };
-        }
-    }
+        };
+    };
+
+    function keys() {
+        const keysArr = [];
+
+        for (let i = 0; i < buckets.length; i++) {
+            if (!buckets[i]) continue;
+
+            let currNode = buckets[i];
+
+            while (currNode !== null) {
+                keysArr.push(currNode.key);
+                currNode = currNode.nextNode;
+            };
+        };
+
+        return keysArr;
+    };
     
     return {
-        set, get, has, remove, length, clear
+        set, get, has, remove, length, clear, keys
     }
 };
 
@@ -164,6 +181,5 @@ function HashMap() {
 // a.set(`age`, 17);
 // a.set(`age`, 20);
 // a.set(`name`, `jayanth`);
-// console.log(a.length());
-// a.clear();
-// console.log(a.length());
+// console.log(a.keys());
+
