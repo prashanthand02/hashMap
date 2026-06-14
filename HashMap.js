@@ -46,14 +46,16 @@ function HashMap() {
         };
 
         if (!buckets[index]) {
+            size++;
             buckets[index] = newNode;
+            
         } else if (buckets[index].key === key) {
             buckets[index].value = value;
+
         } else if (buckets[index].key !== key) {
             buckets[index].nextNode = newNode;
+            size++;
         };
-        
-        size++;
 
         // if (entries > capacity * loadFactor) {
         //     growSize();
@@ -102,16 +104,46 @@ function HashMap() {
             };
         };
         return value;
-    }
+    };
 
+    function remove(key) {
+        for (let i = 0; i < buckets.length; i++) {
+            let currNode = buckets[i];
+        };
+
+        let value = false;
+        
+        for (let i = 0; i < buckets.length; i++) {
+            let currNode = buckets[i];
+
+            if (!buckets[i]) continue;
+
+            if (buckets[i].key === key) {
+                buckets[i] = buckets[i].nextNode || undefined;
+                size--;
+                value = true;
+            }
+            
+            while (currNode !== null) {
+                if (currNode.nextNode && currNode.nextNode.key === key) {
+                    value = true;
+                    currNode.nextNode = currNode.nextNode.nextNode !== null ? currNode.nextNode.nextNode : undefined;
+                    size--;
+                };
+                currNode = currNode.nextNode;
+            };
+        };
+        return value;
+        
+    };
+    
     return {
-        set, get, has
+        set, get, has, remove
     }
 };
 
-// let a = HashMap();
-// a.set(`name`, `prashanth`);
-// a.set(`age`, 17);
-// a.set(`age`, 20);
-// a.set(`name`, `jayanth`);
-// console.log(a.has(`prashanth`));
+let a = HashMap();
+a.set(`name`, `prashanth`);
+a.set(`age`, 17);
+a.set(`age`, 20);
+a.set(`name`, `jayanth`);
