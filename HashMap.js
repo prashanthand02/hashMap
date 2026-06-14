@@ -1,8 +1,8 @@
 // function for making the nodes
-function nodes(value) {
-    const value = value;
+function node(key, value) {
     let nextNode = null;
     return {
+        key,
         value, 
         nextNode
     };
@@ -12,7 +12,8 @@ function nodes(value) {
 function HashMap() {
     const loadFactor = 0.75;
     let capacity = 16;
-    let buckets = new Array(16);
+    let buckets = new Array(capacity);
+    let size = 0;
 
     function hash(key) {
         let hashCode = 0;
@@ -24,5 +25,50 @@ function HashMap() {
         
         return hashCode;
     };
+
+    function growSize() {
+        const oldEntries = entries();
+        capacity *= 2;
+        buckets = new Array(capacity);
+        size = 0;
+
+        for (let [key, value] of oldEntries) {
+            set(key, value);
+        }
+    };
+
+    function set(key, value) {
+        const index = hash(key);
+        const newNode = node(key, value);
+
+        if (typeof key !== typeof "String") {
+            throw new TypeError(`Key type can only be of string.`)
+        };
+
+        if (!buckets[index]) {
+            buckets[index] = newNode;
+        } else if (buckets[index].key === key) {
+            buckets[index].value = value;
+        } else if (buckets[index].key !== key) {
+            buckets[index].nextNode = newNode;
+        };
+        
+        size++;
+
+        // if (entries > capacity * loadFactor) {
+        //     growSize();
+        // };
+
+    };
+
+    return {
+        set, buckets
+    }
 };
 
+let a = HashMap();
+a.set(`name`, `prashanth`);
+a.set(`age`, 17);
+a.set(`age`, 20);
+a.set(`name`, `jayanth`);
+console.log(a.buckets);
