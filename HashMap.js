@@ -170,9 +170,26 @@ function HashMap() {
 
         return keysArr;
     };
+
+    function values() {
+        const valuesArr = [];
+
+        for (let i = 0; i < buckets.length; i++) {
+            if (!buckets[i]) continue;
+
+            let currNode = buckets[i];
+
+            while (currNode !== null) {
+                valuesArr.push(currNode.value);
+                currNode = currNode.nextNode;
+            };
+        };
+
+        return valuesArr;
+    }
     
     return {
-        set, get, has, remove, length, clear, keys
+        set, get, has, remove, length, clear, keys, values
     }
 };
 
@@ -181,5 +198,5 @@ function HashMap() {
 // a.set(`age`, 17);
 // a.set(`age`, 20);
 // a.set(`name`, `jayanth`);
-// console.log(a.keys());
+// console.log(a.values());
 
