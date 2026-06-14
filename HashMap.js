@@ -57,9 +57,10 @@ function HashMap() {
             size++;
         };
 
-        // if (entries > capacity * loadFactor) {
-        //     growSize();
-        // };
+        let loadLevels = capacity * loadFactor
+        if (size > loadLevels) {
+            growSize();
+        };
 
     };
 
@@ -186,17 +187,33 @@ function HashMap() {
         };
 
         return valuesArr;
+    }; 
+
+    function entries() {
+        const entriesArr = [];
+
+        for (let i = 0; i < buckets.length; i++) {
+            if (!buckets[i]) continue;
+
+            let currNode = buckets[i];
+
+            while (currNode !== null) {
+                entriesArr.push([currNode.key ,currNode.value]);
+                currNode = currNode.nextNode;
+            };
+        };
+
+        return entriesArr;
+    };
+
+    function getCapacity() {
+        return `capacity: ${capacity}, length: ${buckets.length} entires: ${size}`;
     }
     
     return {
-        set, get, has, remove, length, clear, keys, values
+        set, get, has, remove, length, clear, keys, values, entries, getCapacity
     }
 };
 
-// let a = HashMap();
-// a.set(`name`, `prashanth`);
-// a.set(`age`, 17);
-// a.set(`age`, 20);
-// a.set(`name`, `jayanth`);
-// console.log(a.values());
+
 
